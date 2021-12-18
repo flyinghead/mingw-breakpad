@@ -77,7 +77,11 @@ CompilationUnit::CompilationUnit(const string& path,
       is_split_dwarf_(false), is_type_unit_(false), dwo_id_(0), dwo_name_(),
       skeleton_dwo_id_(0), ranges_base_(0), addr_base_(0),
       str_offsets_base_(0), have_checked_for_dwp_(false), dwp_path_(),
-      dwp_byte_reader_(), dwp_reader_() {}
+      dwp_byte_reader_()
+#ifdef DWPREADER_WANTED
+    , dwp_reader_()
+#endif
+{}
 
 // Initialize a compilation unit from a .dwo or .dwp file.
 // In this case, we need the .debug_addr section from the
@@ -442,6 +446,7 @@ uint64_t CompilationUnit::Start() {
   // Now that we have our abbreviations, start processing DIE's.
   ProcessDIEs();
 
+#ifdef DWPREADER_WANTED
   // If this is a skeleton compilation unit generated with split DWARF,
   // and the client needs the full debug info, we need to find the full
   // compilation unit in a .dwo or .dwp file.
@@ -449,6 +454,7 @@ uint64_t CompilationUnit::Start() {
       && dwo_name_ != NULL
       && handler_->NeedSplitDebugInfo())
     ProcessSplitDwarf();
+#endif
 
   return ourlength;
 }
@@ -963,6 +969,7 @@ inline int GetElfWidth(const ElfReader& elf) {
   return 0;
 }
 
+#ifdef DWPREADER_WANTED
 void CompilationUnit::ProcessSplitDwarf() {
   struct stat statbuf;
   if (!have_checked_for_dwp_) {
@@ -1047,7 +1054,9 @@ void CompilationUnit::ReadDebugSectionsFromDwo(ElfReader* elf_reader,
              section_size)));
   }
 }
+#endif
 
+#ifdef DWPREADER_WANTED
 DwpReader::DwpReader(const ByteReader& byte_reader, ElfReader* elf_reader)
     : elf_reader_(elf_reader), byte_reader_(byte_reader),
       cu_index_(NULL), cu_index_size_(0), string_buffer_(NULL),
@@ -1253,6 +1262,7 @@ uint32_t DwpReader::LookupCUv2(uint64_t dwo_id) {
   }
   return index;
 }
+#endif
 
 LineInfo::LineInfo(const uint8_t* buffer, uint64_t buffer_length,
                    ByteReader* reader, const uint8_t* string_buffer,
