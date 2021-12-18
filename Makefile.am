@@ -871,7 +871,7 @@ src_processor_basic_source_line_resolver_unittest_LDADD = \
 	src/processor/source_line_resolver_base.o \
 	src/processor/tokenize.o \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 
 src_processor_cfi_frame_info_unittest_SOURCES = \
 	src/processor/cfi_frame_info_unittest.cc
@@ -880,7 +880,7 @@ src_processor_cfi_frame_info_unittest_LDADD = \
 	src/processor/logging.o \
 	src/processor/pathname_stripper.o \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_cfi_frame_info_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -930,7 +930,7 @@ src_processor_exploitability_unittest_LDADD = \
 	src/processor/tokenize.o \
 	src/third_party/libdisasm/libdisasm.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 
 src_processor_disassembler_x86_unittest_SOURCES = \
 	src/processor/disassembler_x86_unittest.cc
@@ -957,7 +957,7 @@ src_processor_fast_source_line_resolver_unittest_LDADD = \
 	src/processor/source_line_resolver_base.o \
 	src/processor/tokenize.o \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 
 src_processor_map_serializers_unittest_SOURCES = \
 	src/processor/map_serializers_unittest.cc
@@ -1001,7 +1001,7 @@ src_processor_microdump_processor_unittest_LDADD = \
 	src/processor/stackwalker_x86.o \
 	src/processor/tokenize.o \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 
 src_processor_minidump_processor_unittest_SOURCES = \
 	src/processor/minidump_processor_unittest.cc
@@ -1042,7 +1042,7 @@ src_processor_minidump_processor_unittest_LDADD = \
 	src/processor/tokenize.o \
 	src/third_party/libdisasm/libdisasm.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 
 src_processor_minidump_unittest_SOURCES = \
 	src/common/test_assembler.cc \
@@ -1190,7 +1190,7 @@ src_processor_stackwalker_amd64_unittest_SOURCES = \
 src_processor_stackwalker_amd64_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_amd64_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1200,7 +1200,7 @@ src_processor_stackwalker_arm_unittest_SOURCES = \
 src_processor_stackwalker_arm_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_arm_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1210,7 +1210,7 @@ src_processor_stackwalker_arm64_unittest_SOURCES = \
 src_processor_stackwalker_arm64_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_arm64_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1220,7 +1220,7 @@ src_processor_stackwalker_address_list_unittest_SOURCES = \
 src_processor_stackwalker_address_list_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_address_list_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1230,7 +1230,7 @@ src_processor_stackwalker_mips_unittest_SOURCES = \
 src_processor_stackwalker_mips_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_mips_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1250,7 +1250,7 @@ src_processor_stackwalker_x86_unittest_SOURCES = \
 src_processor_stackwalker_x86_unittest_LDADD = \
 	src/libbreakpad.a \
 	$(TEST_LIBS) \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) @LIBOBJS@
 src_processor_stackwalker_x86_unittest_CPPFLAGS = \
 	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
@@ -1352,7 +1352,7 @@ src_processor_microdump_stackwalk_LDADD = \
 	src/processor/stackwalker_x86.o \
 	src/processor/tokenize.o \
 	src/third_party/libdisasm/libdisasm.a \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) $(SOCKET_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) $(SOCKET_LIBS) @LIBOBJS@
 
 src_processor_minidump_stackwalk_SOURCES = \
 	src/processor/minidump_stackwalk.cc
@@ -1393,7 +1393,7 @@ src_processor_minidump_stackwalk_LDADD = \
 	src/processor/symbolic_constants_win.o \
 	src/processor/tokenize.o \
 	src/third_party/libdisasm/libdisasm.a \
-	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) $(SOCKET_LIBS)
+	$(PTHREAD_CFLAGS) $(PTHREAD_LIBS) $(SOCKET_LIBS) @LIBOBJS@
 
 endif !DISABLE_PROCESSOR
 

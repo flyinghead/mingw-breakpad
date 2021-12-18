@@ -79,6 +79,9 @@ AM_CONDITIONAL([HAVE_MEMFD_CREATE], [test "x$ac_cv_func_memfd_create" = xyes])
 
 AX_CXX_COMPILE_STDCXX(11, noext, mandatory)
 
+AC_CONFIG_LIBOBJ_DIR([compat])
+AC_REPLACE_FUNCS([strtok_r])
+
 dnl Test supported warning flags.
 WARN_CXXFLAGS=
 dnl This warning flag is used by clang.  Its default behavior is to warn when

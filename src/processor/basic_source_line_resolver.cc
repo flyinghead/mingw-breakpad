@@ -50,6 +50,10 @@
 
 #include "processor/tokenize.h"
 
+#ifndef HAVE_STRTOK_R
+extern "C" char *strtok_r(char *, const char *, char **);
+#endif
+
 using std::deque;
 using std::make_pair;
 using std::map;
