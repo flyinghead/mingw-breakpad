@@ -637,7 +637,7 @@ src_tools_linux_symupload_minidump_upload_SOURCES = \
 	src/common/linux/http_upload.cc \
 	src/common/path_helper.cc \
 	src/tools/linux/symupload/minidump_upload.cc
-src_tools_linux_symupload_minidump_upload_LDADD = -ldl
+src_tools_linux_symupload_minidump_upload_LDADD = -lcurl
 
 src_tools_linux_symupload_sym_upload_SOURCES = \
 	src/common/linux/http_upload.cc \
@@ -650,7 +650,7 @@ src_tools_linux_symupload_sym_upload_SOURCES = \
 	src/common/linux/symbol_upload.h \
 	src/common/path_helper.cc \
 	src/tools/linux/symupload/sym_upload.cc
-src_tools_linux_symupload_sym_upload_LDADD = -ldl
+src_tools_linux_symupload_sym_upload_LDADD = -lcurl
 
 src_tools_mac_dump_syms_dump_syms_mac_SOURCES = \
 	src/common/dwarf_cfi_to_module.cc \
