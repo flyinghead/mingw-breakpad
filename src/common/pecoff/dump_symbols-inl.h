@@ -58,6 +58,7 @@
 #include "common/dwarf_cfi_to_module.h"
 #include "common/dwarf_cu_to_module.h"
 #include "common/dwarf_line_to_module.h"
+#include "common/dwarf_range_list_handler.h"
 #include "common/module.h"
 #include "common/scoped_ptr.h"
 #ifndef NO_STABS_SUPPORT
@@ -194,25 +195,56 @@ bool LoadStabs(const typename ObjectFileReader::ObjectFileBase header,
 #endif  // NO_STABS_SUPPORT
 
 // A line-to-module loader that accepts line number info parsed by
-// dwarf2reader::LineInfo and populates a Module and a line vector
+// google_breakpad::LineInfo and populates a Module and a line vector
 // with the results.
 class DumperLineToModule: public DwarfCUToModule::LineToModuleHandler {
  public:
   // Create a line-to-module converter using BYTE_READER.
-  explicit DumperLineToModule(dwarf2reader::ByteReader *byte_reader)
+  explicit DumperLineToModule(google_breakpad::ByteReader *byte_reader)
       : byte_reader_(byte_reader) { }
   void StartCompilationUnit(const string& compilation_dir) {
     compilation_dir_ = compilation_dir;
   }
-  void ReadProgram(const uint8_t *program, uint64 length,
-                   Module *module, std::vector<Module::Line> *lines) {
-    DwarfLineToModule handler(module, compilation_dir_, lines);
-    dwarf2reader::LineInfo parser(program, length, byte_reader_, &handler);
+  void ReadProgram(const uint8_t* program, uint64_t length,
+                           const uint8_t* string_section,
+                           uint64_t string_section_length,
+                           const uint8_t* line_string_section,
+                           uint64_t line_string_length,
+                           Module* module, vector<Module::Line>* lines,
+                           std::map<uint32_t, Module::File*>* files) override
+  {
+    DwarfLineToModule handler(module, compilation_dir_, lines, files);
+    google_breakpad::LineInfo parser(program, length, byte_reader_,
+    		string_section, string_section_length,
+			line_string_section, line_string_length, &handler);
     parser.Start();
   }
+
  private:
   string compilation_dir_;
-  dwarf2reader::ByteReader *byte_reader_;
+  google_breakpad::ByteReader *byte_reader_;
+};
+
+// A range handler that accepts rangelist data parsed by
+// google_breakpad::RangeListReader and populates a range vector (typically
+// owned by a function) with the results.
+class DumperRangesHandler : public DwarfCUToModule::RangesHandler {
+ public:
+  DumperRangesHandler(google_breakpad::ByteReader* reader) :
+      reader_(reader) { }
+
+  bool ReadRanges(
+      enum google_breakpad::DwarfForm form, uint64_t data,
+      google_breakpad::RangeListReader::CURangesInfo* cu_info,
+      vector<Module::Range>* ranges) {
+	google_breakpad::DwarfRangeListHandler handler(ranges);
+    google_breakpad::RangeListReader range_list_reader(reader_, cu_info,
+                                                    &handler);
+    return range_list_reader.ReadRanges(form, data);
+  }
+
+ private:
+  google_breakpad::ByteReader* reader_;
 };
 
 template<typename ObjectFileReader>
@@ -223,9 +255,9 @@ bool LoadDwarf(const string& dwarf_filename,
                Module* module) {
   typedef typename ObjectFileReader::Section Shdr;
 
-  const dwarf2reader::Endianness endianness = big_endian ?
-      dwarf2reader::ENDIANNESS_BIG : dwarf2reader::ENDIANNESS_LITTLE;
-  dwarf2reader::ByteReader byte_reader(endianness);
+  const google_breakpad::Endianness endianness = big_endian ?
+		  google_breakpad::ENDIANNESS_BIG : google_breakpad::ENDIANNESS_LITTLE;
+  google_breakpad::ByteReader byte_reader(endianness);
 
   // Construct a context for this file.
   DwarfCUToModule::FileContext file_context(dwarf_filename,
@@ -244,24 +276,25 @@ bool LoadDwarf(const string& dwarf_filename,
 
   // Parse all the compilation units in the .debug_info section.
   DumperLineToModule line_to_module(&byte_reader);
-  dwarf2reader::SectionMap::const_iterator debug_info_entry =
+  google_breakpad::SectionMap::const_iterator debug_info_entry =
       file_context.section_map().find(".debug_info");
   assert(debug_info_entry != file_context.section_map().end());
-  const std::pair<const uint8_t*, uint64>& debug_info_section =
+  const std::pair<const uint8_t*, uint64_t>& debug_info_section =
       debug_info_entry->second;
   // This should never have been called if the file doesn't have a
   // .debug_info section.
   assert(debug_info_section.first);
-  uint64 debug_info_length = debug_info_section.second;
-  for (uint64 offset = 0; offset < debug_info_length;) {
+  uint64_t debug_info_length = debug_info_section.second;
+  for (uint64_t offset = 0; offset < debug_info_length;) {
     // Make a handler for the root DIE that populates MODULE with the
     // data that was found.
     DwarfCUToModule::WarningReporter reporter(dwarf_filename, offset);
-    DwarfCUToModule root_handler(&file_context, &line_to_module, &reporter);
+    DumperRangesHandler rangesHandler(&byte_reader);
+    DwarfCUToModule root_handler(&file_context, &line_to_module, &rangesHandler, &reporter);
     // Make a Dwarf2Handler that drives the DIEHandler.
-    dwarf2reader::DIEDispatcher die_dispatcher(&root_handler);
+    google_breakpad::DIEDispatcher die_dispatcher(&root_handler);
     // Make a DWARF parser for the compilation unit at OFFSET.
-    dwarf2reader::CompilationUnit reader(dwarf_filename,
+    google_breakpad::CompilationUnit reader(dwarf_filename,
                                          file_context.section_map(),
                                          offset,
                                          &byte_reader,
@@ -311,8 +344,8 @@ bool LoadDwarfCFI(const string& dwarf_filename,
     return false;
   }
 
-  const dwarf2reader::Endianness endianness = big_endian ?
-      dwarf2reader::ENDIANNESS_BIG : dwarf2reader::ENDIANNESS_LITTLE;
+  const google_breakpad::Endianness endianness = big_endian ?
+      google_breakpad::ENDIANNESS_BIG : google_breakpad::ENDIANNESS_LITTLE;
 
   // Find the call frame information and its size.
   const uint8_t* cfi = reinterpret_cast<const uint8_t *>(ObjectFileReader::GetSectionPointer(header, section));
@@ -321,7 +354,7 @@ bool LoadDwarfCFI(const string& dwarf_filename,
   // Plug together the parser, handler, and their entourages.
   DwarfCFIToModule::Reporter module_reporter(dwarf_filename, section_name);
   DwarfCFIToModule handler(module, register_names, &module_reporter);
-  dwarf2reader::ByteReader byte_reader(endianness);
+  google_breakpad::ByteReader byte_reader(endianness);
 
   byte_reader.SetAddressSize(ObjectFileReader::kAddrSize);
 
@@ -337,9 +370,9 @@ bool LoadDwarfCFI(const string& dwarf_filename,
     byte_reader.SetTextBase(ObjectFileReader::GetSectionRVA(header, text_section) +
                              ObjectFileReader::GetLoadingAddress(header));
 
-  dwarf2reader::CallFrameInfo::Reporter dwarf_reporter(dwarf_filename,
+  google_breakpad::CallFrameInfo::Reporter dwarf_reporter(dwarf_filename,
                                                        section_name);
-  dwarf2reader::CallFrameInfo parser(cfi, cfi_size,
+  google_breakpad::CallFrameInfo parser(cfi, cfi_size,
                                      &byte_reader, &handler, &dwarf_reporter,
                                      eh_frame);
   parser.Start();
@@ -511,7 +544,8 @@ bool LoadSymbols(const string& obj_file,
   bool found_debug_info_section = false;
   bool found_usable_info = false;
 
-  if (options.symbol_data != ONLY_CFI) {
+  if ((options.symbol_data & SYMBOLS_AND_FILES) ||
+      (options.symbol_data & INLINES)) {
 #ifndef NO_STABS_SUPPORT
     // Look for STABS debugging information, and load it if present.
     const Shdr stab_section =
@@ -546,7 +580,7 @@ bool LoadSymbols(const string& obj_file,
     }
   }
 
-  if (options.symbol_data != NO_CFI) {
+  if (options.symbol_data & CFI) {
     // Dwarf Call Frame Information (CFI) is actually independent from
     // the other DWARF debugging information, and can be used alone.
     const Shdr dwarf_cfi_section =
@@ -611,7 +645,8 @@ bool LoadSymbols(const string& obj_file,
                 obj_file.c_str());
       }
     } else {
-      if (options.symbol_data != ONLY_CFI) {
+      if ((options.symbol_data & SYMBOLS_AND_FILES) ||
+          (options.symbol_data & INLINES)) {
         // The caller doesn't want to consult .gnu_debuglink.
         // See if there are export symbols available.
         bool result = ObjectFileReader::ExportedSymbolsToModule(header, module);

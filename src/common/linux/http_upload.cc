@@ -92,8 +92,6 @@ bool HTTPUpload::SendRequest(const string& url,
   struct curl_httppost* formpost = NULL;
   struct curl_httppost* lastptr = NULL;
   // Add form data.
-  CURLFORMcode (*curl_formadd)(struct curl_httppost**, struct curl_httppost**, ...);
-  *(void**) (&curl_formadd) = dlsym(curl_lib, "curl_formadd");
   map<string, string>::const_iterator iter = parameters.begin();
   for (; iter != parameters.end(); ++iter)
     curl_formadd(&formpost, &lastptr,
