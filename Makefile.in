@@ -151,35 +151,37 @@ EXTRA_PROGRAMS = $(am__EXEEXT_1)
 @HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@am__append_11 = \
 @HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@	src/common/linux/breakpad_getcontext.S
 
-@DISABLE_PROCESSOR_FALSE@am__append_12 = \
+@WINDOWS_HOST_TRUE@am__append_12 = src/client/linux/libbreakpad_client.a
+@WINDOWS_HOST_TRUE@am__append_13 = breakpad-client.pc
+@DISABLE_PROCESSOR_FALSE@am__append_14 = \
 @DISABLE_PROCESSOR_FALSE@	src/processor/microdump_stackwalk \
 @DISABLE_PROCESSOR_FALSE@	src/processor/minidump_dump \
 @DISABLE_PROCESSOR_FALSE@	src/processor/minidump_stackwalk
 
-@DISABLE_TOOLS_FALSE@am__append_13 = \
+@DISABLE_TOOLS_FALSE@am__append_15 = \
 @DISABLE_TOOLS_FALSE@	src/tools/linux/symupload/minidump_upload \
 @DISABLE_TOOLS_FALSE@	src/tools/linux/symupload/sym_upload
 
-@LINUX_HOST_TRUE@am__append_14 = src/client/linux/linux_dumper_unittest_helper \
+@LINUX_HOST_TRUE@am__append_16 = src/client/linux/linux_dumper_unittest_helper \
 @LINUX_HOST_TRUE@	src/client/linux/linux_client_unittest_shlib
-@LINUX_HOST_TRUE@am__append_15 = src/client/linux/linux_dumper_unittest_helper \
+@LINUX_HOST_TRUE@am__append_17 = src/client/linux/linux_dumper_unittest_helper \
 @LINUX_HOST_TRUE@	src/client/linux/linux_client_unittest_shlib
-@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@am__append_16 = \
+@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@am__append_18 = \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/core2md/core2md \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/pid2md/pid2md \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/dump_syms/dump_syms \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/md2core/minidump-2-core
 
-@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__append_17 = \
+@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__append_19 = \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@	src/tools/mac/dump_syms/dump_syms_mac
 
-@DISABLE_TOOLS_FALSE@@HAVE_MEMFD_CREATE_TRUE@@LINUX_HOST_TRUE@am__append_18 = \
+@DISABLE_TOOLS_FALSE@@HAVE_MEMFD_CREATE_TRUE@@LINUX_HOST_TRUE@am__append_20 = \
 @DISABLE_TOOLS_FALSE@@HAVE_MEMFD_CREATE_TRUE@@LINUX_HOST_TRUE@	src/tools/linux/core_handler/core_handler
 
-@DISABLE_TOOLS_FALSE@@WINDOWS_HOST_TRUE@am__append_19 = \
+@DISABLE_TOOLS_FALSE@@WINDOWS_HOST_TRUE@am__append_21 = \
 @DISABLE_TOOLS_FALSE@@WINDOWS_HOST_TRUE@	src/tools/windows/dump_syms_dwarf/dump_syms
 
-@DISABLE_PROCESSOR_FALSE@am__append_20 = \
+@DISABLE_PROCESSOR_FALSE@am__append_22 = \
 @DISABLE_PROCESSOR_FALSE@	src/common/test_assembler_unittest \
 @DISABLE_PROCESSOR_FALSE@	src/common/dwarf/dwarf2reader_lineinfo_unittest \
 @DISABLE_PROCESSOR_FALSE@	src/common/dwarf/dwarf2reader_splitfunctions_unittest \
@@ -213,26 +215,26 @@ EXTRA_PROGRAMS = $(am__EXEEXT_1)
 @DISABLE_PROCESSOR_FALSE@	src/processor/stackwalker_x86_unittest \
 @DISABLE_PROCESSOR_FALSE@	src/processor/synth_minidump_unittest
 
-@LINUX_HOST_TRUE@am__append_21 = \
+@LINUX_HOST_TRUE@am__append_23 = \
 @LINUX_HOST_TRUE@	src/client/linux/linux_client_unittest \
 @LINUX_HOST_TRUE@	src/common/linux/google_crashdump_uploader_test
 
-@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@am__append_22 = \
+@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@am__append_24 = \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/common/dumper_unittest \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/md2core/minidump_2_core_unittest
 
-@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__append_23 = \
+@DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__append_25 = \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@	src/common/mac/macho_reader_unittest
 
-@DISABLE_PROCESSOR_FALSE@@SELFTEST_TRUE@am__append_24 = \
+@DISABLE_PROCESSOR_FALSE@@SELFTEST_TRUE@am__append_26 = \
 @DISABLE_PROCESSOR_FALSE@@SELFTEST_TRUE@	src/processor/stackwalker_selftest
 
-@HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@am__append_25 = src/common/linux/breakpad_getcontext.S \
+@HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@am__append_27 = src/common/linux/breakpad_getcontext.S \
 @HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@	src/common/linux/breakpad_getcontext_unittest.cc
-@ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@am__append_26 = \
+@ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@am__append_28 = \
 @ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@	-llog -lm
 
-@ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@am__append_27 = \
+@ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@am__append_29 = \
 @ANDROID_HOST_TRUE@@LINUX_HOST_TRUE@        -llog
 
 noinst_PROGRAMS =
@@ -384,9 +386,38 @@ am__src_client_linux_libbreakpad_client_a_SOURCES_DIST =  \
 	src/common/linux/linux_libc_support.cc \
 	src/common/linux/memory_mapped_file.cc \
 	src/common/linux/safe_readlink.cc \
-	src/common/linux/breakpad_getcontext.S
+	src/common/linux/breakpad_getcontext.S \
+	src/client/windows/common/auto_critical_section.h \
+	src/client/windows/common/ipc_protocol.h \
+	src/client/windows/crash_generation/client_info.cc \
+	src/client/windows/crash_generation/client_info.h \
+	src/client/windows/crash_generation/crash_generation_client.cc \
+	src/client/windows/crash_generation/crash_generation_client.h \
+	src/client/windows/crash_generation/crash_generation_server.cc \
+	src/client/windows/crash_generation/crash_generation_server.h \
+	src/client/windows/crash_generation/minidump_generator.cc \
+	src/client/windows/crash_generation/minidump_generator.h \
+	src/client/windows/handler/exception_handler.cc \
+	src/client/windows/handler/exception_handler.h \
+	src/client/windows/sender/crash_report_sender.cc \
+	src/client/windows/sender/crash_report_sender.h \
+	src/common/windows/guid_string.cc \
+	src/common/windows/guid_string.h \
+	src/common/windows/http_upload.cc \
+	src/common/windows/http_upload.h \
+	src/common/windows/string_utils.cc \
+	src/common/windows/string_utils-inl.h
 am__dirstamp = $(am__leading_dot)dirstamp
 @HAVE_GETCONTEXT_FALSE@@LINUX_HOST_TRUE@am__objects_1 = src/common/linux/breakpad_getcontext.$(OBJEXT)
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@am_src_client_linux_libbreakpad_client_a_OBJECTS = src/client/windows/crash_generation/client_info.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_client.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_server.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/minidump_generator.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/client/windows/handler/exception_handler.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/client/windows/sender/crash_report_sender.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/common/windows/guid_string.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/common/windows/http_upload.$(OBJEXT) \
+@LINUX_HOST_FALSE@@WINDOWS_HOST_TRUE@	src/common/windows/string_utils.$(OBJEXT)
 @LINUX_HOST_TRUE@am_src_client_linux_libbreakpad_client_a_OBJECTS = src/client/linux/crash_generation/crash_generation_client.$(OBJEXT) \
 @LINUX_HOST_TRUE@	src/client/linux/crash_generation/crash_generation_server.$(OBJEXT) \
 @LINUX_HOST_TRUE@	src/client/linux/dump_writer_common/thread_info.$(OBJEXT) \
@@ -1692,6 +1723,12 @@ am__depfiles_remade = compat/$(DEPDIR)/strtok_r.Po \
 	src/client/linux/minidump_writer/$(DEPDIR)/linux_dumper_unittest_helper-linux_dumper_unittest_helper.Po \
 	src/client/linux/minidump_writer/$(DEPDIR)/linux_ptrace_dumper.Po \
 	src/client/linux/minidump_writer/$(DEPDIR)/minidump_writer.Po \
+	src/client/windows/crash_generation/$(DEPDIR)/client_info.Po \
+	src/client/windows/crash_generation/$(DEPDIR)/crash_generation_client.Po \
+	src/client/windows/crash_generation/$(DEPDIR)/crash_generation_server.Po \
+	src/client/windows/crash_generation/$(DEPDIR)/minidump_generator.Po \
+	src/client/windows/handler/$(DEPDIR)/exception_handler.Po \
+	src/client/windows/sender/$(DEPDIR)/crash_report_sender.Po \
 	src/common/$(DEPDIR)/client_linux_linux_client_unittest_shlib-memory_allocator_unittest.Po \
 	src/common/$(DEPDIR)/convert_UTF.Po \
 	src/common/$(DEPDIR)/dumper_unittest-byte_cursor_unittest.Po \
@@ -1856,6 +1893,9 @@ am__depfiles_remade = compat/$(DEPDIR)/strtok_r.Po \
 	src/common/tests/$(DEPDIR)/client_linux_linux_client_unittest_shlib-file_utils.Po \
 	src/common/tests/$(DEPDIR)/dumper_unittest-file_utils.Po \
 	src/common/tests/$(DEPDIR)/mac_macho_reader_unittest-file_utils.Po \
+	src/common/windows/$(DEPDIR)/guid_string.Po \
+	src/common/windows/$(DEPDIR)/http_upload.Po \
+	src/common/windows/$(DEPDIR)/string_utils.Po \
 	src/processor/$(DEPDIR)/address_map_unittest.Po \
 	src/processor/$(DEPDIR)/basic_code_modules.Po \
 	src/processor/$(DEPDIR)/basic_source_line_resolver.Po \
@@ -2527,7 +2567,7 @@ includec_HEADERS = $(top_srcdir)/src/common/*.h
 includepdir = $(includedir)/$(PACKAGE)/processor
 includep_HEADERS = $(top_srcdir)/src/processor/*.h
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = $(am__append_7) $(am__append_10)
+pkgconfig_DATA = $(am__append_7) $(am__append_10) $(am__append_13)
 @SYSTEM_TEST_LIBS_FALSE@TEST_CFLAGS = \
 @SYSTEM_TEST_LIBS_FALSE@	-I$(top_srcdir)/src/testing/include \
 @SYSTEM_TEST_LIBS_FALSE@	-I$(top_srcdir)/src/testing/googletest/include \
@@ -2543,8 +2583,8 @@ pkgconfig_DATA = $(am__append_7) $(am__append_10)
 @SYSTEM_TEST_LIBS_TRUE@TEST_DEPS = 
 check_LIBRARIES = src/testing/libtesting.a
 noinst_LIBRARIES = $(am__append_8)
-lib_LIBRARIES = $(am__append_6) $(am__append_9)
-CLEANFILES = $(am__append_15)
+lib_LIBRARIES = $(am__append_6) $(am__append_9) $(am__append_12)
+CLEANFILES = $(am__append_17)
 @SYSTEM_TEST_LIBS_FALSE@src_testing_libtesting_a_SOURCES = \
 @SYSTEM_TEST_LIBS_FALSE@	src/breakpad_googletest_includes.h \
 @SYSTEM_TEST_LIBS_FALSE@	src/testing/googletest/src/gtest-all.cc \
@@ -2589,6 +2629,28 @@ CLEANFILES = $(am__append_15)
 @LINUX_HOST_TRUE@	src/common/linux/memory_mapped_file.cc \
 @LINUX_HOST_TRUE@	src/common/linux/safe_readlink.cc \
 @LINUX_HOST_TRUE@	$(am__append_11)
+@WINDOWS_HOST_TRUE@src_client_linux_libbreakpad_client_a_SOURCES = \
+@WINDOWS_HOST_TRUE@	src/client/windows/common/auto_critical_section.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/common/ipc_protocol.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/client_info.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/client_info.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_client.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_client.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_server.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/crash_generation_server.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/minidump_generator.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/crash_generation/minidump_generator.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/handler/exception_handler.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/handler/exception_handler.h \
+@WINDOWS_HOST_TRUE@	src/client/windows/sender/crash_report_sender.cc \
+@WINDOWS_HOST_TRUE@	src/client/windows/sender/crash_report_sender.h \
+@WINDOWS_HOST_TRUE@	src/common/windows/guid_string.cc \
+@WINDOWS_HOST_TRUE@	src/common/windows/guid_string.h \
+@WINDOWS_HOST_TRUE@	src/common/windows/http_upload.cc \
+@WINDOWS_HOST_TRUE@	src/common/windows/http_upload.h \
+@WINDOWS_HOST_TRUE@	src/common/windows/string_utils.cc \
+@WINDOWS_HOST_TRUE@	src/common/windows/string_utils-inl.h
+
 @DISABLE_PROCESSOR_FALSE@src_libbreakpad_a_SOURCES = \
 @DISABLE_PROCESSOR_FALSE@	src/google_breakpad/common/breakpad_types.h \
 @DISABLE_PROCESSOR_FALSE@	src/google_breakpad/common/minidump_format.h \
@@ -2811,13 +2873,13 @@ src_tools_linux_symupload_sym_upload_LDADD = -lcurl
 @LINUX_HOST_TRUE@	src/processor/minidump.cc \
 @LINUX_HOST_TRUE@	src/processor/pathname_stripper.cc \
 @LINUX_HOST_TRUE@	src/processor/proc_maps_linux.cc \
-@LINUX_HOST_TRUE@	$(am__append_25)
+@LINUX_HOST_TRUE@	$(am__append_27)
 @LINUX_HOST_TRUE@src_client_linux_linux_client_unittest_shlib_CPPFLAGS = \
 @LINUX_HOST_TRUE@	$(AM_CPPFLAGS) $(TEST_CFLAGS)
 
 @LINUX_HOST_TRUE@src_client_linux_linux_client_unittest_shlib_LDFLAGS =  \
 @LINUX_HOST_TRUE@	-shared -Wl,-h,linux_client_unittest_shlib \
-@LINUX_HOST_TRUE@	$(am__append_26)
+@LINUX_HOST_TRUE@	$(am__append_28)
 @LINUX_HOST_TRUE@src_client_linux_linux_client_unittest_shlib_LDADD = \
 @LINUX_HOST_TRUE@	src/client/linux/crash_generation/crash_generation_client.o \
 @LINUX_HOST_TRUE@	src/client/linux/dump_writer_common/thread_info.o \
@@ -2853,7 +2915,7 @@ src_tools_linux_symupload_sym_upload_LDADD = -lcurl
 @LINUX_HOST_TRUE@src_client_linux_linux_client_unittest_LDFLAGS =  \
 @LINUX_HOST_TRUE@	-Wl,-rpath,'$$ORIGIN' \
 @LINUX_HOST_TRUE@	-Wl,--build-id=0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f \
-@LINUX_HOST_TRUE@	$(am__append_27)
+@LINUX_HOST_TRUE@	$(am__append_29)
 @LINUX_HOST_TRUE@src_client_linux_linux_client_unittest_LDADD = \
 @LINUX_HOST_TRUE@	src/client/linux/linux_client_unittest_shlib \
 @LINUX_HOST_TRUE@	$(TEST_LIBS)
@@ -4266,6 +4328,57 @@ src/common/linux/safe_readlink.$(OBJEXT):  \
 src/common/linux/breakpad_getcontext.$(OBJEXT):  \
 	src/common/linux/$(am__dirstamp) \
 	src/common/linux/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/crash_generation/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/crash_generation
+	@: > src/client/windows/crash_generation/$(am__dirstamp)
+src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/crash_generation/$(DEPDIR)
+	@: > src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/crash_generation/client_info.$(OBJEXT):  \
+	src/client/windows/crash_generation/$(am__dirstamp) \
+	src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/crash_generation/crash_generation_client.$(OBJEXT):  \
+	src/client/windows/crash_generation/$(am__dirstamp) \
+	src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/crash_generation/crash_generation_server.$(OBJEXT):  \
+	src/client/windows/crash_generation/$(am__dirstamp) \
+	src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/crash_generation/minidump_generator.$(OBJEXT):  \
+	src/client/windows/crash_generation/$(am__dirstamp) \
+	src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/handler/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/handler
+	@: > src/client/windows/handler/$(am__dirstamp)
+src/client/windows/handler/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/handler/$(DEPDIR)
+	@: > src/client/windows/handler/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/handler/exception_handler.$(OBJEXT):  \
+	src/client/windows/handler/$(am__dirstamp) \
+	src/client/windows/handler/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/sender/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/sender
+	@: > src/client/windows/sender/$(am__dirstamp)
+src/client/windows/sender/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/client/windows/sender/$(DEPDIR)
+	@: > src/client/windows/sender/$(DEPDIR)/$(am__dirstamp)
+src/client/windows/sender/crash_report_sender.$(OBJEXT):  \
+	src/client/windows/sender/$(am__dirstamp) \
+	src/client/windows/sender/$(DEPDIR)/$(am__dirstamp)
+src/common/windows/$(am__dirstamp):
+	@$(MKDIR_P) src/common/windows
+	@: > src/common/windows/$(am__dirstamp)
+src/common/windows/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/common/windows/$(DEPDIR)
+	@: > src/common/windows/$(DEPDIR)/$(am__dirstamp)
+src/common/windows/guid_string.$(OBJEXT):  \
+	src/common/windows/$(am__dirstamp) \
+	src/common/windows/$(DEPDIR)/$(am__dirstamp)
+src/common/windows/http_upload.$(OBJEXT):  \
+	src/common/windows/$(am__dirstamp) \
+	src/common/windows/$(DEPDIR)/$(am__dirstamp)
+src/common/windows/string_utils.$(OBJEXT):  \
+	src/common/windows/$(am__dirstamp) \
+	src/common/windows/$(DEPDIR)/$(am__dirstamp)
 src/client/linux/$(am__dirstamp):
 	@$(MKDIR_P) src/client/linux
 	@: > src/client/linux/$(am__dirstamp)
@@ -5438,6 +5551,9 @@ mostlyclean-compile:
 	-rm -f src/client/linux/log/*.$(OBJEXT)
 	-rm -f src/client/linux/microdump_writer/*.$(OBJEXT)
 	-rm -f src/client/linux/minidump_writer/*.$(OBJEXT)
+	-rm -f src/client/windows/crash_generation/*.$(OBJEXT)
+	-rm -f src/client/windows/handler/*.$(OBJEXT)
+	-rm -f src/client/windows/sender/*.$(OBJEXT)
 	-rm -f src/common/*.$(OBJEXT)
 	-rm -f src/common/dwarf/*.$(OBJEXT)
 	-rm -f src/common/linux/*.$(OBJEXT)
@@ -5445,6 +5561,7 @@ mostlyclean-compile:
 	-rm -f src/common/mac/*.$(OBJEXT)
 	-rm -f src/common/pecoff/*.$(OBJEXT)
 	-rm -f src/common/tests/*.$(OBJEXT)
+	-rm -f src/common/windows/*.$(OBJEXT)
 	-rm -f src/processor/*.$(OBJEXT)
 	-rm -f src/testing/googlemock/src/*.$(OBJEXT)
 	-rm -f src/testing/googletest/src/*.$(OBJEXT)
@@ -5487,6 +5604,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/client/linux/minidump_writer/$(DEPDIR)/linux_dumper_unittest_helper-linux_dumper_unittest_helper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/client/linux/minidump_writer/$(DEPDIR)/linux_ptrace_dumper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/client/linux/minidump_writer/$(DEPDIR)/minidump_writer.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/crash_generation/$(DEPDIR)/client_info.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/crash_generation/$(DEPDIR)/crash_generation_client.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/crash_generation/$(DEPDIR)/crash_generation_server.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/crash_generation/$(DEPDIR)/minidump_generator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/handler/$(DEPDIR)/exception_handler.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/client/windows/sender/$(DEPDIR)/crash_report_sender.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/client_linux_linux_client_unittest_shlib-memory_allocator_unittest.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/convert_UTF.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/dumper_unittest-byte_cursor_unittest.Po@am__quote@ # am--include-marker
@@ -5652,6 +5775,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/tests/$(DEPDIR)/client_linux_linux_client_unittest_shlib-file_utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/tests/$(DEPDIR)/dumper_unittest-file_utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/tests/$(DEPDIR)/mac_macho_reader_unittest-file_utils.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/common/windows/$(DEPDIR)/guid_string.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/common/windows/$(DEPDIR)/http_upload.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/common/windows/$(DEPDIR)/string_utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/processor/$(DEPDIR)/address_map_unittest.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/processor/$(DEPDIR)/basic_code_modules.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/processor/$(DEPDIR)/basic_source_line_resolver.Po@am__quote@ # am--include-marker
@@ -9500,6 +9626,12 @@ distclean-generic:
 	-rm -f src/client/linux/microdump_writer/$(am__dirstamp)
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/client/linux/minidump_writer/$(am__dirstamp)
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/client/windows/crash_generation/$(am__dirstamp)
+	-rm -f src/client/windows/handler/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/client/windows/handler/$(am__dirstamp)
+	-rm -f src/client/windows/sender/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/client/windows/sender/$(am__dirstamp)
 	-rm -f src/common/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/common/$(am__dirstamp)
 	-rm -f src/common/dwarf/$(DEPDIR)/$(am__dirstamp)
@@ -9514,6 +9646,8 @@ distclean-generic:
 	-rm -f src/common/pecoff/$(am__dirstamp)
 	-rm -f src/common/tests/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/common/tests/$(am__dirstamp)
+	-rm -f src/common/windows/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/common/windows/$(am__dirstamp)
 	-rm -f src/processor/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/processor/$(am__dirstamp)
 	-rm -f src/testing/$(am__dirstamp)
@@ -9577,6 +9711,12 @@ distclean: distclean-am
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/linux_dumper_unittest_helper-linux_dumper_unittest_helper.Po
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/linux_ptrace_dumper.Po
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/minidump_writer.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/client_info.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/crash_generation_client.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/crash_generation_server.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/minidump_generator.Po
+	-rm -f src/client/windows/handler/$(DEPDIR)/exception_handler.Po
+	-rm -f src/client/windows/sender/$(DEPDIR)/crash_report_sender.Po
 	-rm -f src/common/$(DEPDIR)/client_linux_linux_client_unittest_shlib-memory_allocator_unittest.Po
 	-rm -f src/common/$(DEPDIR)/convert_UTF.Po
 	-rm -f src/common/$(DEPDIR)/dumper_unittest-byte_cursor_unittest.Po
@@ -9742,6 +9882,9 @@ distclean: distclean-am
 	-rm -f src/common/tests/$(DEPDIR)/client_linux_linux_client_unittest_shlib-file_utils.Po
 	-rm -f src/common/tests/$(DEPDIR)/dumper_unittest-file_utils.Po
 	-rm -f src/common/tests/$(DEPDIR)/mac_macho_reader_unittest-file_utils.Po
+	-rm -f src/common/windows/$(DEPDIR)/guid_string.Po
+	-rm -f src/common/windows/$(DEPDIR)/http_upload.Po
+	-rm -f src/common/windows/$(DEPDIR)/string_utils.Po
 	-rm -f src/processor/$(DEPDIR)/address_map_unittest.Po
 	-rm -f src/processor/$(DEPDIR)/basic_code_modules.Po
 	-rm -f src/processor/$(DEPDIR)/basic_source_line_resolver.Po
@@ -9934,6 +10077,12 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/linux_dumper_unittest_helper-linux_dumper_unittest_helper.Po
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/linux_ptrace_dumper.Po
 	-rm -f src/client/linux/minidump_writer/$(DEPDIR)/minidump_writer.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/client_info.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/crash_generation_client.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/crash_generation_server.Po
+	-rm -f src/client/windows/crash_generation/$(DEPDIR)/minidump_generator.Po
+	-rm -f src/client/windows/handler/$(DEPDIR)/exception_handler.Po
+	-rm -f src/client/windows/sender/$(DEPDIR)/crash_report_sender.Po
 	-rm -f src/common/$(DEPDIR)/client_linux_linux_client_unittest_shlib-memory_allocator_unittest.Po
 	-rm -f src/common/$(DEPDIR)/convert_UTF.Po
 	-rm -f src/common/$(DEPDIR)/dumper_unittest-byte_cursor_unittest.Po
@@ -10099,6 +10248,9 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/common/tests/$(DEPDIR)/client_linux_linux_client_unittest_shlib-file_utils.Po
 	-rm -f src/common/tests/$(DEPDIR)/dumper_unittest-file_utils.Po
 	-rm -f src/common/tests/$(DEPDIR)/mac_macho_reader_unittest-file_utils.Po
+	-rm -f src/common/windows/$(DEPDIR)/guid_string.Po
+	-rm -f src/common/windows/$(DEPDIR)/http_upload.Po
+	-rm -f src/common/windows/$(DEPDIR)/string_utils.Po
 	-rm -f src/processor/$(DEPDIR)/address_map_unittest.Po
 	-rm -f src/processor/$(DEPDIR)/basic_code_modules.Po
 	-rm -f src/processor/$(DEPDIR)/basic_source_line_resolver.Po

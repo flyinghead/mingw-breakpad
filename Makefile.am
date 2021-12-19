@@ -204,6 +204,33 @@ src_client_linux_libbreakpad_client_a_SOURCES += \
 endif
 endif LINUX_HOST
 
+if WINDOWS_HOST
+lib_LIBRARIES += src/client/linux/libbreakpad_client.a
+pkgconfig_DATA += breakpad-client.pc
+
+src_client_linux_libbreakpad_client_a_SOURCES = \
+	src/client/windows/common/auto_critical_section.h \
+	src/client/windows/common/ipc_protocol.h \
+	src/client/windows/crash_generation/client_info.cc \
+	src/client/windows/crash_generation/client_info.h \
+	src/client/windows/crash_generation/crash_generation_client.cc \
+	src/client/windows/crash_generation/crash_generation_client.h \
+	src/client/windows/crash_generation/crash_generation_server.cc \
+	src/client/windows/crash_generation/crash_generation_server.h \
+	src/client/windows/crash_generation/minidump_generator.cc \
+	src/client/windows/crash_generation/minidump_generator.h \
+	src/client/windows/handler/exception_handler.cc \
+	src/client/windows/handler/exception_handler.h \
+	src/client/windows/sender/crash_report_sender.cc \
+	src/client/windows/sender/crash_report_sender.h \
+	src/common/windows/guid_string.cc \
+	src/common/windows/guid_string.h \
+	src/common/windows/http_upload.cc \
+	src/common/windows/http_upload.h \
+	src/common/windows/string_utils.cc \
+	src/common/windows/string_utils-inl.h
+endif WINDOWS_HOST
+
 if !DISABLE_PROCESSOR
 src_libbreakpad_a_SOURCES = \
 	src/google_breakpad/common/breakpad_types.h \
