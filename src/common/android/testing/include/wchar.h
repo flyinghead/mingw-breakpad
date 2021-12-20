@@ -38,7 +38,7 @@
 
 #include_next <wchar.h>
 
-#if !defined(__aarch64__) && !defined(__x86_64__) && \
+#if 0 //!defined(__aarch64__) && !defined(__x86_64__) && \
     !(defined(__mips__) && _MIPS_SIM == _ABI64)
 
 // This needs to be in an extern "C" namespace, or Googletest will not
