@@ -255,8 +255,11 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 	$(am__includecl_HEADERS_DIST) $(am__includeclc_HEADERS_DIST) \
 	$(am__includecldwc_HEADERS_DIST) \
 	$(am__includeclh_HEADERS_DIST) $(am__includeclm_HEADERS_DIST) \
-	$(includegbc_HEADERS) $(am__includelss_HEADERS_DIST) \
-	$(includep_HEADERS) $(am__DIST_COMMON)
+	$(am__includecw_HEADERS_DIST) $(am__includecwc_HEADERS_DIST) \
+	$(am__includecwco_HEADERS_DIST) $(am__includecwh_HEADERS_DIST) \
+	$(am__includecws_HEADERS_DIST) $(includegbc_HEADERS) \
+	$(am__includelss_HEADERS_DIST) $(includep_HEADERS) \
+	$(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
@@ -281,8 +284,11 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(includecdir)" \
 	"$(DESTDIR)$(includecldir)" "$(DESTDIR)$(includeclcdir)" \
 	"$(DESTDIR)$(includecldwcdir)" "$(DESTDIR)$(includeclhdir)" \
-	"$(DESTDIR)$(includeclmdir)" "$(DESTDIR)$(includegbcdir)" \
-	"$(DESTDIR)$(includelssdir)" "$(DESTDIR)$(includepdir)"
+	"$(DESTDIR)$(includeclmdir)" "$(DESTDIR)$(includecwdir)" \
+	"$(DESTDIR)$(includecwcdir)" "$(DESTDIR)$(includecwcodir)" \
+	"$(DESTDIR)$(includecwhdir)" "$(DESTDIR)$(includecwsdir)" \
+	"$(DESTDIR)$(includegbcdir)" "$(DESTDIR)$(includelssdir)" \
+	"$(DESTDIR)$(includepdir)"
 @DISABLE_PROCESSOR_FALSE@am__EXEEXT_7 = src/common/test_assembler_unittest$(EXEEXT) \
 @DISABLE_PROCESSOR_FALSE@	src/common/dwarf/dwarf2reader_lineinfo_unittest$(EXEEXT) \
 @DISABLE_PROCESSOR_FALSE@	src/common/dwarf/dwarf2reader_splitfunctions_unittest$(EXEEXT) \
@@ -2173,12 +2179,23 @@ am__includeclh_HEADERS_DIST =  \
 	$(top_srcdir)/src/client/linux/handler/*.h
 am__includeclm_HEADERS_DIST =  \
 	$(top_srcdir)/src/client/linux/minidump_writer/*.h
+am__includecw_HEADERS_DIST = $(top_srcdir)/src/common/windows/*.h
+am__includecwc_HEADERS_DIST =  \
+	$(top_srcdir)/src/client/windows/crash_generation/*.h
+am__includecwco_HEADERS_DIST =  \
+	$(top_srcdir)/src/client/windows/common/*.h
+am__includecwh_HEADERS_DIST =  \
+	$(top_srcdir)/src/client/windows/handler/*.h
+am__includecws_HEADERS_DIST =  \
+	$(top_srcdir)/src/client/windows/sender/*.h
 am__includelss_HEADERS_DIST = $(top_srcdir)/src/third_party/lss/*.h
 HEADERS = $(includec_HEADERS) $(includecl_HEADERS) \
 	$(includeclc_HEADERS) $(includecldwc_HEADERS) \
 	$(includeclh_HEADERS) $(includeclm_HEADERS) \
-	$(includegbc_HEADERS) $(includelss_HEADERS) \
-	$(includep_HEADERS)
+	$(includecw_HEADERS) $(includecwc_HEADERS) \
+	$(includecwco_HEADERS) $(includecwh_HEADERS) \
+	$(includecws_HEADERS) $(includegbc_HEADERS) \
+	$(includelss_HEADERS) $(includep_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -2560,6 +2577,16 @@ dist_doc_DATA = \
 @LINUX_HOST_TRUE@includelss_HEADERS = $(top_srcdir)/src/third_party/lss/*.h
 @LINUX_HOST_TRUE@includecldir = $(includedir)/$(PACKAGE)/common/linux
 @LINUX_HOST_TRUE@includecl_HEADERS = $(top_srcdir)/src/common/linux/*.h
+@MINGW_HOST_TRUE@includecwhdir = $(includedir)/$(PACKAGE)/client/windows/handler
+@MINGW_HOST_TRUE@includecwh_HEADERS = $(top_srcdir)/src/client/windows/handler/*.h
+@MINGW_HOST_TRUE@includecwsdir = $(includedir)/$(PACKAGE)/client/windows/sender
+@MINGW_HOST_TRUE@includecws_HEADERS = $(top_srcdir)/src/client/windows/sender/*.h
+@MINGW_HOST_TRUE@includecwcdir = $(includedir)/$(PACKAGE)/client/windows/crash_generation
+@MINGW_HOST_TRUE@includecwc_HEADERS = $(top_srcdir)/src/client/windows/crash_generation/*.h
+@MINGW_HOST_TRUE@includecwcodir = $(includedir)/$(PACKAGE)/client/windows/common
+@MINGW_HOST_TRUE@includecwco_HEADERS = $(top_srcdir)/src/client/windows/common/*.h
+@MINGW_HOST_TRUE@includecwdir = $(includedir)/$(PACKAGE)/common/windows
+@MINGW_HOST_TRUE@includecw_HEADERS = $(top_srcdir)/src/common/windows/*.h
 includegbcdir = $(includedir)/$(PACKAGE)/google_breakpad/common
 includegbc_HEADERS = $(top_srcdir)/src/google_breakpad/common/*.h
 includecdir = $(includedir)/$(PACKAGE)/common
@@ -8815,6 +8842,111 @@ uninstall-includeclmHEADERS:
 	@list='$(includeclm_HEADERS)'; test -n "$(includeclmdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(includeclmdir)'; $(am__uninstall_files_from_dir)
+install-includecwHEADERS: $(includecw_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(includecw_HEADERS)'; test -n "$(includecwdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includecwdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includecwdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includecwdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includecwdir)" || exit $$?; \
+	done
+
+uninstall-includecwHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(includecw_HEADERS)'; test -n "$(includecwdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includecwdir)'; $(am__uninstall_files_from_dir)
+install-includecwcHEADERS: $(includecwc_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(includecwc_HEADERS)'; test -n "$(includecwcdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includecwcdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includecwcdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includecwcdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includecwcdir)" || exit $$?; \
+	done
+
+uninstall-includecwcHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(includecwc_HEADERS)'; test -n "$(includecwcdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includecwcdir)'; $(am__uninstall_files_from_dir)
+install-includecwcoHEADERS: $(includecwco_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(includecwco_HEADERS)'; test -n "$(includecwcodir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includecwcodir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includecwcodir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includecwcodir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includecwcodir)" || exit $$?; \
+	done
+
+uninstall-includecwcoHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(includecwco_HEADERS)'; test -n "$(includecwcodir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includecwcodir)'; $(am__uninstall_files_from_dir)
+install-includecwhHEADERS: $(includecwh_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(includecwh_HEADERS)'; test -n "$(includecwhdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includecwhdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includecwhdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includecwhdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includecwhdir)" || exit $$?; \
+	done
+
+uninstall-includecwhHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(includecwh_HEADERS)'; test -n "$(includecwhdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includecwhdir)'; $(am__uninstall_files_from_dir)
+install-includecwsHEADERS: $(includecws_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(includecws_HEADERS)'; test -n "$(includecwsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includecwsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includecwsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includecwsdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includecwsdir)" || exit $$?; \
+	done
+
+uninstall-includecwsHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(includecws_HEADERS)'; test -n "$(includecwsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includecwsdir)'; $(am__uninstall_files_from_dir)
 install-includegbcHEADERS: $(includegbc_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(includegbc_HEADERS)'; test -n "$(includegbcdir)" || list=; \
@@ -9575,7 +9707,7 @@ check: check-am
 all-am: Makefile $(PROGRAMS) $(LIBRARIES) $(SCRIPTS) $(DATA) \
 		$(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(includecdir)" "$(DESTDIR)$(includecldir)" "$(DESTDIR)$(includeclcdir)" "$(DESTDIR)$(includecldwcdir)" "$(DESTDIR)$(includeclhdir)" "$(DESTDIR)$(includeclmdir)" "$(DESTDIR)$(includegbcdir)" "$(DESTDIR)$(includelssdir)" "$(DESTDIR)$(includepdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(includecdir)" "$(DESTDIR)$(includecldir)" "$(DESTDIR)$(includeclcdir)" "$(DESTDIR)$(includecldwcdir)" "$(DESTDIR)$(includeclhdir)" "$(DESTDIR)$(includeclmdir)" "$(DESTDIR)$(includecwdir)" "$(DESTDIR)$(includecwcdir)" "$(DESTDIR)$(includecwcodir)" "$(DESTDIR)$(includecwhdir)" "$(DESTDIR)$(includecwsdir)" "$(DESTDIR)$(includegbcdir)" "$(DESTDIR)$(includelssdir)" "$(DESTDIR)$(includepdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -10017,9 +10149,11 @@ info-am:
 install-data-am: install-dist_docDATA install-includecHEADERS \
 	install-includeclHEADERS install-includeclcHEADERS \
 	install-includecldwcHEADERS install-includeclhHEADERS \
-	install-includeclmHEADERS install-includegbcHEADERS \
-	install-includelssHEADERS install-includepHEADERS \
-	install-pkgconfigDATA
+	install-includeclmHEADERS install-includecwHEADERS \
+	install-includecwcHEADERS install-includecwcoHEADERS \
+	install-includecwhHEADERS install-includecwsHEADERS \
+	install-includegbcHEADERS install-includelssHEADERS \
+	install-includepHEADERS install-pkgconfigDATA
 
 install-dvi: install-dvi-am
 
@@ -10384,9 +10518,12 @@ uninstall-am: uninstall-binPROGRAMS uninstall-dist_docDATA \
 	uninstall-includecHEADERS uninstall-includeclHEADERS \
 	uninstall-includeclcHEADERS uninstall-includecldwcHEADERS \
 	uninstall-includeclhHEADERS uninstall-includeclmHEADERS \
-	uninstall-includegbcHEADERS uninstall-includelssHEADERS \
-	uninstall-includepHEADERS uninstall-libLIBRARIES \
-	uninstall-libexecPROGRAMS uninstall-pkgconfigDATA
+	uninstall-includecwHEADERS uninstall-includecwcHEADERS \
+	uninstall-includecwcoHEADERS uninstall-includecwhHEADERS \
+	uninstall-includecwsHEADERS uninstall-includegbcHEADERS \
+	uninstall-includelssHEADERS uninstall-includepHEADERS \
+	uninstall-libLIBRARIES uninstall-libexecPROGRAMS \
+	uninstall-pkgconfigDATA
 
 .MAKE: check-am install-am install-strip
 
@@ -10406,19 +10543,24 @@ uninstall-am: uninstall-binPROGRAMS uninstall-dist_docDATA \
 	install-html-am install-includecHEADERS \
 	install-includeclHEADERS install-includeclcHEADERS \
 	install-includecldwcHEADERS install-includeclhHEADERS \
-	install-includeclmHEADERS install-includegbcHEADERS \
-	install-includelssHEADERS install-includepHEADERS install-info \
-	install-info-am install-libLIBRARIES install-libexecPROGRAMS \
-	install-man install-pdf install-pdf-am install-pkgconfigDATA \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-local pdf pdf-am ps ps-am \
-	recheck tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-dist_docDATA \
-	uninstall-includecHEADERS uninstall-includeclHEADERS \
-	uninstall-includeclcHEADERS uninstall-includecldwcHEADERS \
-	uninstall-includeclhHEADERS uninstall-includeclmHEADERS \
+	install-includeclmHEADERS install-includecwHEADERS \
+	install-includecwcHEADERS install-includecwcoHEADERS \
+	install-includecwhHEADERS install-includecwsHEADERS \
+	install-includegbcHEADERS install-includelssHEADERS \
+	install-includepHEADERS install-info install-info-am \
+	install-libLIBRARIES install-libexecPROGRAMS install-man \
+	install-pdf install-pdf-am install-pkgconfigDATA install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-local pdf pdf-am ps ps-am recheck tags tags-am \
+	uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-dist_docDATA uninstall-includecHEADERS \
+	uninstall-includeclHEADERS uninstall-includeclcHEADERS \
+	uninstall-includecldwcHEADERS uninstall-includeclhHEADERS \
+	uninstall-includeclmHEADERS uninstall-includecwHEADERS \
+	uninstall-includecwcHEADERS uninstall-includecwcoHEADERS \
+	uninstall-includecwhHEADERS uninstall-includecwsHEADERS \
 	uninstall-includegbcHEADERS uninstall-includelssHEADERS \
 	uninstall-includepHEADERS uninstall-libLIBRARIES \
 	uninstall-libexecPROGRAMS uninstall-pkgconfigDATA

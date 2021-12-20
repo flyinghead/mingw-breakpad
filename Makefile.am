@@ -100,6 +100,23 @@ includecldir = $(includedir)/$(PACKAGE)/common/linux
 includecl_HEADERS = $(top_srcdir)/src/common/linux/*.h
 endif
 
+if MINGW_HOST
+includecwhdir = $(includedir)/$(PACKAGE)/client/windows/handler
+includecwh_HEADERS = $(top_srcdir)/src/client/windows/handler/*.h
+
+includecwsdir = $(includedir)/$(PACKAGE)/client/windows/sender
+includecws_HEADERS = $(top_srcdir)/src/client/windows/sender/*.h
+
+includecwcdir = $(includedir)/$(PACKAGE)/client/windows/crash_generation
+includecwc_HEADERS = $(top_srcdir)/src/client/windows/crash_generation/*.h
+
+includecwcodir = $(includedir)/$(PACKAGE)/client/windows/common
+includecwco_HEADERS = $(top_srcdir)/src/client/windows/common/*.h
+
+includecwdir = $(includedir)/$(PACKAGE)/common/windows
+includecw_HEADERS = $(top_srcdir)/src/common/windows/*.h
+endif
+
 includegbcdir = $(includedir)/$(PACKAGE)/google_breakpad/common
 includegbc_HEADERS = $(top_srcdir)/src/google_breakpad/common/*.h
 
