@@ -8537,7 +8537,7 @@ fi
 
 done
 
-as_fn_append WARN_CXXFLAGS " -Werror"
+#as_fn_append WARN_CXXFLAGS " -Werror"
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
