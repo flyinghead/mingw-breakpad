@@ -61,6 +61,8 @@ const SectionMap::const_iterator GetSectionByName(const SectionMap&
     return iter;
   std::string macho_name("__");
   macho_name += name + 1;
+  if (macho_name == "__debug_str_offsets")
+    macho_name = "__debug_str_offs";
   iter = sections.find(macho_name);
   return iter;
 }
